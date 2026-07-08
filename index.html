@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>セーブ機能付き！本格Webゲームアプリ</title>
+    
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: white;
+            font-family: sans-serif;
+            text-align: center;
+            padding-top: 30px;
+        }
+        h1 {
+            color: #ff9900;
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+        .counter-text {
+            font-size: 54px;
+            font-weight: bold;
+            color: #00ffcc;
+            margin: 10px 0;
+        }
+        .btn {
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn-gacha { background-color: #0099ff; }
+        /* 💾 セーブデータ消去ボタン用の赤色デザイン */
+        .btn-reset { background-color: #555; font-size: 12px; padding: 5px 10px; }
+        .btn-reset:hover { background-color: #ff3333; }
+
+        .result-box {
+            margin: 15px 0;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffff00;
+            min-height: 30px;
+        }
+        .typing-section {
+            margin-top: 30px;
+            border-top: 2px solid #444;
+            padding-top: 20px;
+        }
+        .word-display {
+            font-size: 40px;
+            font-family: 'Consolas', monospace;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 2px;
+            margin: 10px 0;
+        }
+        .meaning-display {
+            font-size: 18px;
+            color: #88ccff;
+            margin-bottom: 15px;
+        }
+        .status-display {
+            font-size: 24px;
+            font-family: 'Consolas', monospace;
+            font-weight: bold;
+            color: #a0a0a0;
+            background-color: #222;
+            display: inline-block;
+            padding: 10px 30px;
+            border-radius: 10px;
+            min-width: 250px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="mainTitle">マイ・コインシステム</h1>
+    <p>このゲームは自動セーブされます 💾</p>
+
+    <div id="coinCount" class="counter-text">0</div>
+
+    <button class="btn btn-gacha" onclick="drawGacha()">ガチャを引く（30枚）</button>
+    <div id="gachaResult" class="result-box"></div>
+
+    <button class="btn btn-reset" onclick="resetData()">データをリセット</button>
+
+    <div class="typing-section">
+        <h2>✍️ 高校必須英単語タイピング</h2>
+        <div id="wordDisplay" class="word-display">establish</div>
+        <div id="meaningDisplay" class="meaning-display">意味: 〜を設立する、確立する</div>
+        <div id="statusDisplay" class="status-display">ここにタイプしてね！</div>
+    </div>
+
+    <script>
+        // 💾 【重要】ゲーム起動時に、ブラウザの記憶からコインの枚数を読み込む
+        // もし過去のセーブデータがなければ「0」からスタートする
+        let coin = Number(localStorage.getItem("savedCoin")) || 0;
+
+        const wordList = [
+            { word: "establish", meaning: "〜を設立する、確立する" },
+            { word: "frequently", meaning: "頻繁に" },
+            { word: "consequence", meaning: "結果、成果" },
+            { word: "significant", meaning: "重要な、かなりの" },
+            { word: "environment", meaning: "環境" }
+        ];
+
+        let currentWordData = {};
+        let typedChars = "";
+
+        // 🪙 画面に最新のコイン数を表示する関数（セーブ後の連動用）
+        function updateCoinDisplay() {
+            document.getElementById("coinCount").innerText = coin;
+            if (coin >= 10) {
+                document.getElementById("coinCount").style.color = "#ffd700";
+                document.getElementById("mainTitle").innerText = "✨ 億万長者への第一歩 ✨";
+            } else {
+                document.getElementById("coinCount").style.color = "#00ffcc";
+                document.getElementById("mainTitle").innerText = "マイ・コインシステム";
+            }
+        }
+
+        // 💾 【新機能】現在のコイン数をブラウザに強制セーブする関数
+        function saveGame() {
+            localStorage.setItem("savedCoin", coin);
+        }
+
+        function nextQuestion() {
+            let randomIndex = Math.floor(Math.random() * wordList.length);
+            currentWordData = wordList[randomIndex];
+            typedChars = "";
+            document.getElementById("wordDisplay").innerText = currentWordData.word;
+            document.getElementById("meaningDisplay").innerText = "意味: " + currentWordData.meaning;
+            document.getElementById("statusDisplay").innerText = "タイプしてね！";
+            document.getElementById("statusDisplay").style.color = "#a0a0a0";
+        }
+
+        window.addEventListener("keydown", function(event) {
+            let pressedKey = event.key;
+            if (pressedKey.length > 1) return;
+
+            let nextCorrectChar = currentWordData.word[typedChars.length];
+
+            if (pressedKey === nextCorrectChar) {
+                typedChars = typedChars + pressedKey;
+                let statusLabel = document.getElementById("statusDisplay");
+                statusLabel.innerText = typedChars;
+                statusLabel.style.color = "#00ffcc";
+
+                if (typedChars === currentWordData.word) {
+                    coin = coin + 50;
+                    
+                    updateCoinDisplay(); // 画面を更新
+                    saveGame();          // 💾 コインが増えたので自動セーブ！
+                    
+                    statusLabel.innerText = "🎉 CLEAR! (+50枚)";
+                    statusLabel.style.color = "#ffff00";
+                    setTimeout(nextQuestion, 1000);
+                }
+            } else {
+                let statusLabel = document.getElementById("statusDisplay");
+                statusLabel.innerText = typedChars + " ❌";
+                statusLabel.style.color = "#ff3333";
+            }
+        });
+
+        function drawGacha() {
+            let resultLabel = document.getElementById("gachaResult");
+
+            if (coin < 30) {
+                resultLabel.innerText = "❌ コインが足りません！タイピングで勉強して稼ごう。";
+                resultLabel.style.color = "#ff3333";
+                return;
+            }
+
+            coin = coin - 30;
+            
+            updateCoinDisplay(); // 画面を更新
+            saveGame();          // 💾 ガチャでコインが減ったので自動セーブ！
+
+            let 景品 = ["⭐超激レアの剣", "✨レアの盾", "📦普通の回復薬", "🌱そこら辺の草"];
+            let randomIndex = Math.floor(Math.random() * 景品.length);
+            let selectedItem = 景品[randomIndex];
+
+            resultLabel.style.color = "#ffff00";
+            resultLabel.innerText = "ガチャン！ 当たったのは… 【 " + selectedItem + " 】！";
+        }
+
+        // ❌ セーブデータを完全に削除する作戦
+        function resetData() {
+            if (confirm("本当にセーブデータをリセットしますか？")) {
+                localStorage.removeItem("savedCoin"); // 記憶を消す
+                coin = 0;
+                updateCoinDisplay();
+                document.getElementById("gachaResult").innerText = "";
+            }
+        }
+
+        // 🏎️ 起動時の処理
+        updateCoinDisplay(); // 保存されていたコイン数を画面に映す
+        nextQuestion();
+    </script>
+
+</body>
+</html>

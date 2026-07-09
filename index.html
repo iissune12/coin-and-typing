@@ -2,96 +2,176 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>ターゲット1900タイピング＆ガチャ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ターゲット1900 タイピング＆ガチャ</title>
     
     <style>
+        /* 🌌 1. 画面全体の背景を美しいグラデーションに */
         body {
-            background-color: #1a1a1a;
-            color: white;
-            font-family: sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: #f8fafc;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
             text-align: center;
-            padding-top: 30px;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
+        /* 📦 メインのコンテンツを囲む中央の白いコンテナ */
+        .container {
+            max-width: 650px;
+            width: 100%;
+        }
+
         h1 {
-            color: #ff9900;
+            color: #f59e0b; /* 綺麗なゴールド */
             font-size: 32px;
+            font-weight: 800;
             margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
         }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* 🪙 コインカウンターを巨大なネオン風に */
         .counter-text {
-            font-size: 54px;
-            font-weight: bold;
-            color: #00ffcc;
-            margin: 10px 0;
+            font-size: 72px;
+            font-weight: 900;
+            color: #10b981; /* エメラルドグリーン */
+            margin: 15px 0;
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+            transition: color 0.5s, text-shadow 0.5s;
         }
+
+        /* 🔘 ボタンのベースデザイン */
         .btn {
             color: white;
-            padding: 12px 25px;
-            border-radius: 30px;
+            padding: 14px 32px;
+            border-radius: 50px;
             border: none;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            margin: 5px;
+            margin: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* ふわっと動かす魔法 */
         }
-        .btn-gacha { background-color: #0099ff; }
-        .btn-reset { background-color: #555; font-size: 12px; padding: 5px 10px; }
-        .btn-reset:hover { background-color: #ff3333; }
+
+        /* ⚡ マウスを乗せたとき（Hover）の浮き上がる演出 */
+        .btn:hover {
+            transform: translateY(-2px); /* 2px上に浮かす */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-gacha {
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); /* 青からシアンのグラデ */
+        }
+        .btn-gacha:hover {
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
+        }
+
+        .btn-reset {
+            background-color: transparent;
+            color: #64748b;
+            font-size: 12px;
+            padding: 6px 15px;
+            border: 1px solid #334155;
+            margin-top: 15px;
+        }
+        .btn-reset:hover {
+            background-color: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
 
         .result-box {
-            margin: 15px 0;
-            font-size: 20px;
+            margin: 20px 0;
+            font-size: 22px;
             font-weight: bold;
-            color: #ffff00;
-            min-height: 30px;
+            color: #fbbf24;
+            min-height: 40px;
+            text-shadow: 0 0 8px rgba(251, 191, 36, 0.3);
         }
+
+        /* ✍️ 2. タイピングエリア（グラスモフィズム：磨りガラス効果） */
         .typing-section {
-            margin-top: 30px;
-            border-top: 2px solid #444;
-            padding-top: 20px;
+            margin-top: 40px;
+            background: rgba(255, 255, 255, 0.03); /* 超微細な白色を乗せる */
+            backdrop-filter: blur(12px); /* 背景をボカす */
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08); /* 繊細な白い境界線 */
+            padding: 30px 20px;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
         }
+
+        .typing-section h2 {
+            font-size: 20px;
+            margin-top: 0;
+            color: #e2e8f0;
+            letter-spacing: 1px;
+        }
+
+        /* 🔤 出題される英単語（フォントを美しく読みやすく） */
         .word-display {
-            font-size: 40px;
-            font-family: 'Consolas', monospace;
-            font-weight: bold;
+            font-size: 48px;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            font-weight: 700;
             color: #ffffff;
-            letter-spacing: 2px;
-            margin: 10px 0;
+            letter-spacing: 3px;
+            margin: 15px 0;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
+
         .meaning-display {
             font-size: 18px;
-            color: #88ccff;
-            margin-bottom: 15px;
+            color: #38bdf8; /* 明るい水色 */
+            font-weight: 500;
+            margin-bottom: 20px;
         }
+
+        /* ⌨️ 入力ステータスの箱をクールなデザインに */
         .status-display {
             font-size: 24px;
             font-family: 'Consolas', monospace;
             font-weight: bold;
-            color: #a0a0a0;
-            background-color: #222;
+            color: #94a3b8;
+            background-color: #0f172a;
             display: inline-block;
-            padding: 10px 30px;
-            border-radius: 10px;
-            min-width: 250px;
+            padding: 12px 40px;
+            border-radius: 16px;
+            border: 1px solid #1e293b;
+            min-width: 280px;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.6);
         }
     </style>
 </head>
 <body>
 
-    <h1 id="mainTitle">マイ・コインシステム</h1>
-    <p>ターゲット1900の単語で稼げ！ 📄</p>
+    <div class="container">
+        <h1 id="mainTitle">マイ・コインシステム</h1>
+        <div class="subtitle">ターゲット1900の単語で稼げ！ 📄</div>
 
-    <div id="coinCount" class="counter-text">0</div>
+        <div id="coinCount" class="counter-text">0</div>
 
-    <button class="btn btn-gacha" onclick="drawGacha()">ガチャを引く（30枚）</button>
-    <div id="gachaResult" class="result-box"></div>
+        <button class="btn btn-gacha" onclick="drawGacha()">ガチャを引く（30枚）</button>
+        <div id="gachaResult" class="result-box"></div>
 
-    <button class="btn btn-reset" onclick="resetData()">データをリセット</button>
+        <div class="typing-section">
+            <h2>✍️ ターゲット1900 特訓タイピング</h2>
+            <div id="wordDisplay" class="word-display">loading...</div>
+            <div id="meaningDisplay" class="meaning-display">意味: 読み込み中</div>
+            <div id="statusDisplay" class="status-display">ここにタイプしてね！</div>
+        </div>
 
-    <div class="typing-section">
-        <h2>✍️ ターゲット1900 特訓タイピング</h2>
-        <div id="wordDisplay" class="word-display">loading...</div>
-        <div id="meaningDisplay" class="meaning-display">意味: 読み込み中</div>
-        <div id="statusDisplay" class="status-display">ここにタイプしてね！</div>
+        <button class="btn btn-reset" onclick="resetData()">データをリセット</button>
     </div>
 
     <script src="words.js"></script>
@@ -101,16 +181,20 @@
         let currentWordData = {};
         let typedChars = "";
 
-        // ※ `wordList` は words.js から自動的に読み込まれています
-
         function updateCoinDisplay() {
             document.getElementById("coinCount").innerText = coin;
             if (coin >= 10) {
-                document.getElementById("coinCount").style.color = "#ffd700";
+                // 🪙 10コイン以上：ゴールドネオン
+                document.getElementById("coinCount").style.color = "#fbbf24";
+                document.getElementById("coinCount").style.textShadow = "0 0 20px rgba(251, 191, 36, 0.6)";
                 document.getElementById("mainTitle").innerText = "✨ 億万長者への第一歩 ✨";
+                document.getElementById("mainTitle").style.color = "#fbbf24";
             } else {
-                document.getElementById("coinCount").style.color = "#00ffcc";
+                // 🟢 初期状態：エメラルドネオン
+                document.getElementById("coinCount").style.color = "#10b981";
+                document.getElementById("coinCount").style.textShadow = "0 0 20px rgba(16, 185, 129, 0.6)";
                 document.getElementById("mainTitle").innerText = "マイ・コインシステム";
+                document.getElementById("mainTitle").style.color = "#f59e0b";
             }
         }
 
@@ -125,7 +209,7 @@
             document.getElementById("wordDisplay").innerText = currentWordData.word;
             document.getElementById("meaningDisplay").innerText = "意味: " + currentWordData.meaning;
             document.getElementById("statusDisplay").innerText = "タイプしてね！";
-            document.getElementById("statusDisplay").style.color = "#a0a0a0";
+            document.getElementById("statusDisplay").style.color = "#94a3b8";
         }
 
         window.addEventListener("keydown", function(event) {
@@ -138,7 +222,7 @@
                 typedChars = typedChars + pressedKey;
                 let statusLabel = document.getElementById("statusDisplay");
                 statusLabel.innerText = typedChars;
-                statusLabel.style.color = "#00ffcc";
+                statusLabel.style.color = "#10b981"; // 成功時はエメラルドグリーンに光る
 
                 if (typedChars === currentWordData.word) {
                     coin = coin + 50;
@@ -146,13 +230,13 @@
                     saveGame();
                     
                     statusLabel.innerText = "🎉 CLEAR! (+50枚)";
-                    statusLabel.style.color = "#ffff00";
+                    statusLabel.style.color = "#fbbf24"; // ゴールドに光る
                     setTimeout(nextQuestion, 1000);
                 }
             } else {
                 let statusLabel = document.getElementById("statusDisplay");
                 statusLabel.innerText = typedChars + " ❌";
-                statusLabel.style.color = "#ff3333";
+                statusLabel.style.color = "#ef4444"; // ミスは赤
             }
         });
 
@@ -161,7 +245,7 @@
 
             if (coin < 30) {
                 resultLabel.innerText = "❌ コインが足りません！タイピングで勉強して稼ごう。";
-                resultLabel.style.color = "#ff3333";
+                resultLabel.style.color = "#ef4444";
                 return;
             }
 
@@ -173,7 +257,7 @@
             let randomIndex = Math.floor(Math.random() * 景品.length);
             let selectedItem = 景品[randomIndex];
 
-            resultLabel.style.color = "#ffff00";
+            resultLabel.style.color = "#fbbf24";
             resultLabel.innerText = "ガチャン！ 当たったのは… 【 " + selectedItem + " 】！";
         }
 

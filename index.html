@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ターゲット1900 タイピング＆ガチャ</title>
+    <title>ターゲット1900 タイピング＆単語図鑑</title>
     
     <style>
-        /* 🌌 1. 画面全体の背景を美しいグラデーションに */
+        /* 🌌 画面全体の背景（グラデーション） */
         body {
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
             color: #f8fafc;
@@ -20,14 +20,13 @@
             align-items: center;
         }
 
-        /* 📦 メインのコンテンツを囲む中央の白いコンテナ */
         .container {
             max-width: 650px;
             width: 100%;
         }
 
         h1 {
-            color: #f59e0b; /* 綺麗なゴールド */
+            color: #f59e0b;
             font-size: 32px;
             font-weight: 800;
             margin-bottom: 5px;
@@ -40,14 +39,14 @@
             margin-bottom: 25px;
         }
 
-        /* 🪙 コインカウンターを巨大なネオン風に */
+        /* 🪙 コインカウンター */
         .counter-text {
             font-size: 72px;
             font-weight: 900;
-            color: #10b981; /* エメラルドグリーン */
+            color: #10b981;
             margin: 15px 0;
             text-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
-            transition: color 0.5s, text-shadow 0.5s;
+            transition: all 0.5s;
         }
 
         /* 🔘 ボタンのベースデザイン */
@@ -60,21 +59,20 @@
             font-weight: bold;
             cursor: pointer;
             margin: 10px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* ふわっと動かす魔法 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* ⚡ マウスを乗せたとき（Hover）の浮き上がる演出 */
         .btn:hover {
-            transform: translateY(-2px); /* 2px上に浮かす */
+            transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
         }
 
         .btn-gacha {
-            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); /* 青からシアンのグラデ */
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%); /* ガチャっぽく紫×ピンクのグラデに！ */
         }
         .btn-gacha:hover {
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
         }
 
         .btn-reset {
@@ -83,7 +81,7 @@
             font-size: 12px;
             padding: 6px 15px;
             border: 1px solid #334155;
-            margin-top: 15px;
+            margin-top: 30px;
         }
         .btn-reset:hover {
             background-color: #ef4444;
@@ -91,22 +89,21 @@
             border-color: #ef4444;
         }
 
+        /* 🎁 ガチャ結果の表示箱 */
         .result-box {
             margin: 20px 0;
             font-size: 22px;
             font-weight: bold;
-            color: #fbbf24;
             min-height: 40px;
-            text-shadow: 0 0 8px rgba(251, 191, 36, 0.3);
         }
 
-        /* ✍️ 2. タイピングエリア（グラスモフィズム：磨りガラス効果） */
+        /* ✍️ タイピングエリア（磨りガラス効果） */
         .typing-section {
-            margin-top: 40px;
-            background: rgba(255, 255, 255, 0.03); /* 超微細な白色を乗せる */
-            backdrop-filter: blur(12px); /* 背景をボカす */
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08); /* 繊細な白い境界線 */
+            border: 1px solid rgba(255, 255, 255, 0.08);
             padding: 30px 20px;
             border-radius: 24px;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
@@ -116,28 +113,24 @@
             font-size: 20px;
             margin-top: 0;
             color: #e2e8f0;
-            letter-spacing: 1px;
         }
 
-        /* 🔤 出題される英単語（フォントを美しく読みやすく） */
         .word-display {
             font-size: 48px;
-            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
             font-weight: 700;
             color: #ffffff;
             letter-spacing: 3px;
             margin: 15px 0;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
 
         .meaning-display {
             font-size: 18px;
-            color: #38bdf8; /* 明るい水色 */
+            color: #38bdf8;
             font-weight: 500;
             margin-bottom: 20px;
         }
 
-        /* ⌨️ 入力ステータスの箱をクールなデザインに */
         .status-display {
             font-size: 24px;
             font-family: 'Consolas', monospace;
@@ -149,21 +142,86 @@
             border-radius: 16px;
             border: 1px solid #1e293b;
             min-width: 280px;
-            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.6);
+        }
+
+        /* 🗂️ 🗺️ 新設：単語図鑑（コレクション）エリア */
+        .collection-section {
+            margin-top: 50px;
+            width: 100%;
+            border-top: 2px dashed #334155;
+            padding-top: 30px;
+        }
+
+        .collection-section h3 {
+            font-size: 22px;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+
+        /* カードを綺麗に並べるグリッド配置（並べる魔法） */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* 🎴 カード1枚ずつのデザイン */
+        .card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 15px 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        /* 未獲得カードの見た目（暗くしてハテナにする） */
+        .card.locked {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px dashed #1e293b;
+            color: #475569;
+        }
+
+        .card-rarity {
+            font-size: 11px;
+            font-weight: 900;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        /* レア度別のカラーギャラリー */
+        .rarity-ur { background-color: #ef4444; color: white; text-shadow: 0 0 5px #ff0000; } /* 8文字以上: 赤 */
+        .rarity-r  { background-color: #3b82f6; color: white; } /* 5〜7文字: 青 */
+        .rarity-n  { background-color: #64748b; color: white; } /* 4文字以下: グレー */
+
+        .card-word {
+            font-family: 'Consolas', monospace;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .card-meaning {
+            font-size: 12px;
+            color: #94a3b8;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1 id="mainTitle">マイ・コインシステム</h1>
-        <div class="subtitle">ターゲット1900の単語で稼げ！ 📄</div>
+        <h1 id="mainTitle">ガチャコインシステム</h1>
+        <div class="subtitle">ターゲット1900の単語で稼いで図鑑をコンプせよ！ 📄</div>
 
         <div id="coinCount" class="counter-text">0</div>
 
-        <button class="btn btn-gacha" onclick="drawGacha()">ガチャを引く（30枚）</button>
+        <button class="btn btn-gacha" onclick="drawGacha()">カードガチャを引く（30枚）</button>
         <div id="gachaResult" class="result-box"></div>
 
+        <!-- タイピング勉強エリア -->
         <div class="typing-section">
             <h2>✍️ ターゲット1900 特訓タイピング</h2>
             <div id="wordDisplay" class="word-display">loading...</div>
@@ -171,35 +229,89 @@
             <div id="statusDisplay" class="status-display">ここにタイプしてね！</div>
         </div>
 
+        <!-- 🗂️ 単語図鑑エリア -->
+        <div class="collection-section">
+            <h3 id="collectionProgress">単語コレクション (0 / 0)</h3>
+            <div id="cardGrid" class="card-grid"></div>
+        </div>
+
         <button class="btn btn-reset" onclick="resetData()">データをリセット</button>
     </div>
 
+    <!-- 単語データの読み込み -->
     <script src="words.js"></script>
 
     <script>
         let coin = Number(localStorage.getItem("savedCoin")) || 0;
+        
+        // 📥 セーブされた「獲得済み単語リスト」を読み込む（無い場合は空っぽの配列 []）
+        let unlockedWords = JSON.parse(localStorage.getItem("savedUnlockedWords")) || [];
+        
         let currentWordData = {};
         let typedChars = "";
+
+        // 📊 単語の文字数からレア度を自動で返す関数
+        function getRarity(word) {
+            if (word.length >= 8) return { code: "UR", label: "SR 🔥", class: "rarity-ur" };
+            if (word.length >= 5) return { code: "R",  label: "R 💎",  class: "rarity-r" };
+            return { code: "N",  label: "N 📋",  class: "rarity-n" };
+        }
 
         function updateCoinDisplay() {
             document.getElementById("coinCount").innerText = coin;
             if (coin >= 10) {
-                // 🪙 10コイン以上：ゴールドネオン
                 document.getElementById("coinCount").style.color = "#fbbf24";
                 document.getElementById("coinCount").style.textShadow = "0 0 20px rgba(251, 191, 36, 0.6)";
-                document.getElementById("mainTitle").innerText = "✨ 億万長者への第一歩 ✨";
-                document.getElementById("mainTitle").style.color = "#fbbf24";
             } else {
-                // 🟢 初期状態：エメラルドネオン
                 document.getElementById("coinCount").style.color = "#10b981";
                 document.getElementById("coinCount").style.textShadow = "0 0 20px rgba(16, 185, 129, 0.6)";
-                document.getElementById("mainTitle").innerText = "マイ・コインシステム";
-                document.getElementById("mainTitle").style.color = "#f59e0b";
             }
+        }
+
+        // 🎴 図鑑の画面を最新状態に更新する関数（ここが今回のキモ！）
+        function updateBookDisplay() {
+            let grid = document.getElementById("cardGrid");
+            grid.innerHTML = ""; // 一旦中身を空っぽにする
+
+            let collectedCount = 0;
+
+            // words.js にある全ての単語を1個ずつチェックしてカードを作る
+            wordList.forEach(function(item) {
+                let rarity = getRarity(item.word);
+                let isUnlocked = unlockedWords.includes(item.word); // すでに持っているか？
+
+                let cardHtml = "";
+                if (isUnlocked) {
+                    collectedCount++;
+                    // 🔓 持っている場合のカードの中身
+                    cardHtml = `
+                        <div class="card" onclick="startTraining('${item.word}')" style="cursor: pointer;" title="クリックで特訓！">
+                            <span class="card-rarity ${rarity.class}">${rarity.label}</span>
+                            <div class="card-word">${item.word}</div>
+                            <div class="card-meaning">${item.meaning}</div>
+                        </div>
+                    `;
+                } else {
+                    // 🔒 持っていない場合の隠されたカード
+                    cardHtml = `
+                        <div class="card locked">
+                            <span class="card-rarity" style="background-color:#334155; color:#64748b;">?</span>
+                            <div class="card-word">🔒 ???</div>
+                            <div class="card-meaning">未獲得</div>
+                        </div>
+                    `;
+                }
+                grid.innerHTML += cardHtml; // グリッドにカードを追加
+            });
+
+            // プログレス（○個 / 全体個数）のテキスト更新
+            document.getElementById("collectionProgress").innerText = `単語コレクション (${collectedCount} / ${wordList.length})`;
         }
 
         function saveGame() {
             localStorage.setItem("savedCoin", coin);
+            // 配列（リスト）をセーブするときは JSON.stringify() という魔法を使います
+            localStorage.setItem("savedUnlockedWords", JSON.stringify(unlockedWords));
         }
 
         function nextQuestion() {
@@ -222,24 +334,48 @@
                 typedChars = typedChars + pressedKey;
                 let statusLabel = document.getElementById("statusDisplay");
                 statusLabel.innerText = typedChars;
-                statusLabel.style.color = "#10b981"; // 成功時はエメラルドグリーンに光る
+                statusLabel.style.color = "#10b981";
 
                 if (typedChars === currentWordData.word) {
-                    coin = coin + 50;
+                    // 1. 今クリアした単語の「文字数（長さ）」をチェックする
+                    // ※currentWord の部分は、お使いのコードの変数名（targetWord など）に合わせてください
+                    let wordLength = currentWordData.word.length; 
+                    let earnedCoins = 0;
+                    let rarityText = "";
+                    // 2. 文字数に応じて、貰えるコインとレア度（文字）を決める
+                    if (wordLength <= 4) {
+                        earnedCoins = 50;
+                        rarityText = "🟢Normal";
+                    } else if (wordLength <= 7) {
+                        earnedCoins = 100;
+                        rarityText = "🔷Rare";
+                    } else {
+                        earnedCoins = 200; // 8文字以上
+                        rarityText = "🟥SuperRare"
+                    }
+                    // 3. 実際にコインの所持数を増やす
+                    coin =coin + earnedCoins;
+                    // 4. 画面のコイン表示を更新する（虫取り網で捕まえて書き換えるコンボ！）
+                    document.getElementById("coinCount").innerText = coin;
+                    // 5. 【おまけ】画面に「+100コインゲット！」や「🔷Rareクリア！」と表示するとさらに盛り上がります
+                    // もし通知用のエリア（id="messageDisplay" など）があれば、そこに表示させてみましょう！
+                    document.getElementById("statusDisplay").innerText = `${rarityText}クリア！🎉 +${earnedCoins}枚`;
+                    // 6. セーブデータも忘れずに保存する
+                    
                     updateCoinDisplay();
                     saveGame();
                     
-                    statusLabel.innerText = "🎉 CLEAR! (+50枚)";
-                    statusLabel.style.color = "#fbbf24"; // ゴールドに光る
+                    statusLabel.style.color = "#fbbf24";
                     setTimeout(nextQuestion, 1000);
                 }
             } else {
                 let statusLabel = document.getElementById("statusDisplay");
                 statusLabel.innerText = typedChars + " ❌";
-                statusLabel.style.color = "#ef4444"; // ミスは赤
+                statusLabel.style.color = "#ef4444";
             }
         });
 
+        // 🎲 ガチャを引く関数（大改造）
         function drawGacha() {
             let resultLabel = document.getElementById("gachaResult");
 
@@ -251,26 +387,68 @@
 
             coin = coin - 30;
             updateCoinDisplay();
+
+            // words.js の中から完全ランダムで1つ単語を選ぶ
+            let randomIndex = Math.floor(Math.random() * wordList.length);
+            let rolledWordData = wordList[randomIndex];
+            let rarity = getRarity(rolledWordData.word);
+
+            // リストになければ、獲得済みリストに追加
+            let isNew = false;
+            if (!unlockedWords.includes(rolledWordData.word)) {
+                unlockedWords.push(rolledWordData.word);
+                isNew = true;
+            }
+
             saveGame();
+            updateBookDisplay(); // 図鑑を最新にする
 
-            let 景品 = ["⭐超激レアの剣", "✨レアの盾", "📦普通の回復薬", "🌱そこら辺の草"];
-            let randomIndex = Math.floor(Math.random() * 景品.length);
-            let selectedItem = 景品[randomIndex];
+            // レア度に応じた文字色で結果を表示
+            if (rarity.code === "UR") resultLabel.style.color = "#ef4444"; // SRは赤
+            else if (rarity.code === "R") resultLabel.style.color = "#38bdf8"; // Rは水色
+            else resultLabel.style.color = "#94a3b8"; // Nはグレー
 
-            resultLabel.style.color = "#fbbf24";
-            resultLabel.innerText = "ガチャン！ 当たったのは… 【 " + selectedItem + " 】！";
+            let newStar = isNew ? "✨NEW!✨ " : "（重複）";
+            resultLabel.innerText = `ガチャン！【${rarity.label}】${newStar}「${rolledWordData.word}」を獲得！`;
         }
 
         function resetData() {
-            if (confirm("本当にセーブデータをリセットしますか？")) {
+            if (confirm("本当に図鑑もコインもすべてリセットしますか？")) {
                 localStorage.removeItem("savedCoin");
+                localStorage.removeItem("savedUnlockedWords");
                 coin = 0;
+                unlockedWords = [];
                 updateCoinDisplay();
+                updateBookDisplay();
                 document.getElementById("gachaResult").innerText = "";
             }
         }
+        // 🎯 図鑑から単語を選んで特訓スタートする関数
+        function startTraining(targetWord) {
+            // 1. wordList（全単語リスト）の中から、クリックされた単語のデータ（意味など）を探し出す！
+            let foundWordData = wordList.find(function(item) {
+                return item.word === targetWord;
+            });
 
+            // 2. 出題データをそれに強制的に上書きする
+            currentWordData = foundWordData;
+            typedChars = ""; // 入力途中の文字があったらリセット
+
+            // 3. 画面の表示を更新する
+            document.getElementById("wordDisplay").innerText = currentWordData.word;
+            document.getElementById("meaningDisplay").innerText = "意味: " + currentWordData.meaning;
+
+            let statusLabel = document.getElementById("statusDisplay");
+            statusLabel.innerText = "狙い撃ち特訓スタート！";
+            statusLabel.style.color = "#fbbf24"; // ゴールド色で目立たせる
+
+            // 4. 魔法のコード：自動で画面の一番上（タイピングエリア）へ滑らかにスクロールして戻る！
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 起動時の初期化
         updateCoinDisplay();
+        updateBookDisplay();
         nextQuestion();
     </script>
 
